@@ -5,3 +5,4 @@ sudo systemctl enable nodered.service
 / update node-red API translaters
 sudo apt-get install npm
 sudo npm i -g npm@2.x
+/ configured node-red HTML interface portal
