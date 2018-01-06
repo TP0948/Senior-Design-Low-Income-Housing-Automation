@@ -22,7 +22,8 @@ void loop()
 if (DHT.temperature * 1.8+32 > 80){
    digitalWrite(Alert_PIN, HIGH);
   }
-
+else if (DHT.temperature * 1.8+32 < 80){
+   digitalWrite(Alert_PIN, LOW);
 }
-
+}
 
