@@ -1,1 +1,4 @@
-
+/ raspian installed and updated
+/ node-red installed and updated
+/ node-red enabled upon boot with following code
+sudo systemctl enable nodered.service  
