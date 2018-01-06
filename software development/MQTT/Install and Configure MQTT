@@ -7,3 +7,6 @@ sudo touch mosquitto.conf
 sudo nano mosquitto.conf
 ***added config file contents from mosquitto.conf***
 sudo systemctl restart mosquitto
+cd /home/pi/
+touch security.py
+****added config file contents from security.py file
