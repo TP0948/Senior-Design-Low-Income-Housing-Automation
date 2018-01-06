@@ -10,3 +10,7 @@ sudo systemctl restart mosquitto
 cd /home/pi/
 touch security.py
 ****added config file contents from security.py file****
+sudo chmod 755 /etc/rc.local
+sudo nano /etc/rc.local
+*** added below code to rc.local *** 
+/usr/bin/python /home/pi/security.py &
