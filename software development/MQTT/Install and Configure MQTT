@@ -9,4 +9,4 @@ sudo nano mosquitto.conf
 sudo systemctl restart mosquitto
 cd /home/pi/
 touch security.py
-****added config file contents from security.py file
+****added config file contents from security.py file****
