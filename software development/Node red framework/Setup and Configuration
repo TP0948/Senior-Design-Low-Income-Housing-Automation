@@ -6,3 +6,14 @@ sudo systemctl enable nodered.service
 sudo apt-get install npm
 sudo npm i -g npm@2.x
 / configured node-red HTML interface portal
+/ GPIO test code for raspberry pi using python
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BCM) # use Broadcom configu
+GPIO.setup(23,GPIO.OUT) # set to pin 18
+
+while True:
+    GPIO.output (23, 1) #18 on
+    time.sleep (5) # time of on
+    GPIO.output (23,0) # 18 off
+    time.sleep (5) 
