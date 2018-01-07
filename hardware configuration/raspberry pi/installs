@@ -1,0 +1,2 @@
+/install Arduino IDE on raspberry pi
+sudo apt-get install arduino
