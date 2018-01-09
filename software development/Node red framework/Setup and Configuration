@@ -17,3 +17,17 @@ while True:
     time.sleep (5) # time of on
     GPIO.output (23,0) # 18 off
     time.sleep (5) 
+
+
+
+/Upgrade Node-RED to latest version
+
+/20 minutes update time
+sudo npm cache clean
+sudo npm install -g --unsafe-perm node-red
+
+/ updated failed, using method 2
+/ 30 minute reinstall...
+update-nodejs-and-nodered
+/Autoload on boot command
+sudo systemctl enable nodered.service
