@@ -1,0 +1,157 @@
+Create new PI System Infomration Flow map
+Add new Inject node
+    Payload: timestamp
+    Repeate Mode: Interval
+    Every: 5 Seconds
+    
+Link Timestamp to below exec nodes....
+#exec nodes run linux commnads and inject into node-RED. Using to get system information for monitoring purposes
+
+Exec Node Temp #current system temperature
+    Command: vcgencmd measure_temp
+    
+    
+            Function Sub String Node #exstracts numeric value from linux command
+                Code: str = msg.payload 
+                      msg.payload  = str.substring(5, 9);
+                      return msg;
+    
+                    
+                    Dashboard Gage Node
+                        Group: CPU Temperature [Home]
+                        Size: AUTO
+                        Type: Gauge
+                        Label: CPU Temp.
+                        Value Format {{value}}
+                        Units: °C
+                        Range: min: 0 Max: 90
+                        Name: T CPU
+                        
+                    Dashboard Graph Node
+                        Group: CPU Temperature [Home]
+                        Size: AUTO
+                        Label: T CPU
+                        Type: Line Chart
+                        X-axis: Minutes 15
+                        X-axis: min:   Max:
+                        Name:
+    
+Exec Node LOAD #AVG CPU LOAD
+    commnad: top -d 0.5 -b -n2 | grep "Cpu(s)"|tail -n 1 | awk '{print $2 + $4}'
+    
+                    Dashboard Gage Node
+                        Group: CPU Load [Home]
+                        Size: AUTO
+                        Type: Donut
+                        Label: CPU LOAD
+                        Value Format {{value}}
+                        Units: %
+                        Range: min: 0 Max: 90
+                        Name: CPU LOAD
+                        
+                    Dashboard Graph Node
+                        Group: CPU Load [Home]
+                        Size: AUTO
+                        Label: CPU LOAD
+                        Type: Line Chart
+                        X-axis: Minutes 15
+                        X-axis: min:   Max:
+                        Name:
+    
+    
+Exec Node MEM #current system memory
+     commnad: free | grep Mem | awk '{print 100*($4+$6+$7)/$2}'
+     
+                
+                    Dashboard Gage Node
+                        Group: Memory [Home]
+                        Size: AUTO
+                        Type: Level
+                        Label: Free Memory
+                        Units: %
+                        Range: min: 0 Max: 100
+                        Name: Free Memory
+                        
+                    Dashboard Graph Node
+                        Group: Memory [Home]
+                        Size: AUTO
+                        Label: Memory
+                        Type: Line Chart
+                        X-axis: Minutes 15
+                        X-axis: min:   Max:
+                        Name:    
+     
+    
+Exec Node Temp #current system disk usage
+     commnad: df -h
+     
+     
+    
+            Function Sub String Node 
+                Code: var re = /([0-9]{2})%/
+                      var idx = msg.payload.search(re);
+                      var str = msg.payload;
+                      if (idx >=0) {
+                      str = msg.payload.substring(idx, idx + 2);
+                      }
+                      msg.payload = str;
+                      return msg;
+    
+                    
+                    Dashboard Gage Node
+                        Group: Disk Usage [Home]
+                        Size: AUTO
+                        Type: Level
+                        Label: Disk % Used
+                        Units: %
+                        Range: min: 0 Max: 100
+                        Name:
+                        
+                    Dashboard Graph Node
+                        Group: Disk Usage [Home]
+                        Size: AUTO
+                        Label: Disk Usage
+                        Type: Line Chart
+                        X-axis: Minutes 15
+                        X-axis: min:   Max:
+                        Name:
+         
+         
+
+
+Button node
+Label: Reboot
+
+                   Exec Node Reboot
+                        Command: sudo reboot
+
+Button node
+Label: Reboot
+
+                   Exec Node Shutdown
+                        Command: sudo shutdown -h now
+ 
+
+
+Button node
+Label: Reboot
+
+
+                   Exec Node Clear Cache
+                        Command: sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
+                    # Clears cache every 12 hrs if not clicked via TimeStamp Inject Node
+
+Inject Node
+Payload: TimeStamp
+Repeat Mode: Interval
+Every: 12 hours
+
+
+
+     
+     
+     
+     
+     
+     
+     
